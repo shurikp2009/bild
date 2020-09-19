@@ -1,0 +1,6 @@
+id=$(docker create rails6)
+mkdir ./extract
+docker cp $id:/app ./extract
+docker rm -v $id
+mv ./extract/app/* .
+rm -rf ./extract
