@@ -68,7 +68,9 @@ class Folder < ApplicationRecord
     remote_files.each { |entry| create_file entry }
   end
 
-  def traverse
+  def traverse(force = false)
+    return if traversed
+    
     create_files
     
     remote_folders.each do |name|
