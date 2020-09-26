@@ -1,7 +1,8 @@
 class Folder < ApplicationRecord
   belongs_to :parent, class_name: 'Folder', required: false
   has_many :files, class_name: 'RemoteFile'
-
+  belongs_to :server
+  
   DEFAULT = [
     '/NEW/SHATILO',
     '/NEW/LUBIMOV'
@@ -14,8 +15,6 @@ class Folder < ApplicationRecord
 
   LOCAL_ROOT = "#{Rails.root}/ftp"
 
-  has_many :files, class_name: "RemoteFile"
-  belongs_to :server
 
   def self.default
     path = DEFAULT.first
