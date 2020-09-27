@@ -55,3 +55,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'image_processing'
 gem 'image_optim'
 gem 'image_optim_pack'
+
+gem 'slim-rails'

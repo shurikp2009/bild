@@ -1,6 +1,8 @@
 class Folder < ApplicationRecord
   belongs_to :parent, class_name: 'Folder', required: false
   has_many :files, class_name: 'RemoteFile'
+
+  has_many :folders, foreign_key: 'parent_id'
   belongs_to :server
   
   DEFAULT = [
@@ -51,7 +53,7 @@ class Folder < ApplicationRecord
   end
 
   def create_subfolder(entry)
-    self.class.where(server_id: server_id, parent_id: self.id, path: File.join(self.path, entry.name)).first_or_create
+    self.class.where(server_id: server_id, parent_id: self.id, path: File.join(self.path, entry.name), name: entry.name).first_or_create
   end
 
   def create_file(entry)
@@ -65,6 +67,19 @@ class Folder < ApplicationRecord
 
   def create_files
     remote_files.each { |entry| create_file entry }
+  end
+
+  def assign_name
+    unless name.present?
+      self.name = path.split('/').last
+      self.save!
+    end
+  end
+
+  def self.assign_names
+    all.each do |folder|
+      folder.assign_name
+    end
   end
 
   def traverse(force = false)

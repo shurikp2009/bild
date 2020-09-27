@@ -1,0 +1,15 @@
+- content_for :page_header, @folder.name
+
+.content
+  .container-fluid
+    .row
+      .col-lg-1
+        ul.list-unstyled
+          - if @folder.parent
+            li = link_to '[ .. ]', @folder.parent
+          - else 
+            li = link_to '[ .. ]', root_path
+
+          = render @folder.folders
+          - @folder.files.each do |file|
+            = render 'file', file: file
