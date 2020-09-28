@@ -17,8 +17,40 @@ class RemoteFile < ApplicationRecord
     end
   end
 
+  def downloaded?
+    File.exists?(local_path) && size == File.size(local_path)
+  end
+
+  def downloading?
+    File.exists?(local_path) && File.size(local_path) < size
+  end
+
+  def download_progress
+    File.size(local_path).to_f / size
+  end
+
   def local_path(type = :original)
     File.join(folder.local_path(type), name)
+  end
+
+
+  def symlink_name(type = :small)
+    ext = name.split('.').last
+    symlink_name = "#{id}_#{type}.#{ext}"
+  end
+
+  def symlink!(type = :small)
+    ext = name.split('.').last
+    symlink_name = "#{id}_#{type}.#{ext}"
+    root = "#{Rails.root}/app/assets/images"
+    `cd #{root} && rm -rf #{symlink_name} && ln -s "#{local_path(type)}" #{symlink_name}`
+  end
+
+  def full_path(type = :original)
+  end
+
+  def type_exists?(type = :original)
+    File.exists?(local_path(type))
   end
 
   def self.smallest

@@ -1,5 +1,7 @@
 - path ||= false
-- link_text = path ? folder.path : folder.name
+- name ||= false
+- link_text = name ? name : path ? folder.path : folder.name
+
 
 li 
   |[
