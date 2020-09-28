@@ -33,19 +33,6 @@ class RemoteFile < ApplicationRecord
     File.join(folder.local_path(type), name)
   end
 
-
-  def symlink_name(type = :small)
-    ext = name.split('.').last
-    symlink_name = "#{id}_#{type}.#{ext}"
-  end
-
-  def symlink!(type = :small)
-    ext = name.split('.').last
-    symlink_name = "#{id}_#{type}.#{ext}"
-    root = "#{Rails.root}/app/assets/images"
-    `cd #{root} && rm -rf #{symlink_name} && ln -s "#{local_path(type)}" #{symlink_name}`
-  end
-
   def full_path(type = :original)
   end
 
@@ -75,4 +62,6 @@ class RemoteFile < ApplicationRecord
 
     ImageOptim.optimize_image!(local_path(type))
   end
+
+  include Symlink
 end

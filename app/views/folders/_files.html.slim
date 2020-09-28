@@ -12,7 +12,7 @@ table.table
         td = number_to_human_size(file.size).gsub(" ", "&nbsp;").html_safe
         td 
           - if file.type_exists?(:small)
-            = image_tag(file.symlink_name(:small))
+            = try_image_tag(file)
           - else
 
             - if file.status == 'downloading'
