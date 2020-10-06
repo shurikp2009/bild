@@ -2,7 +2,7 @@ Snippet.add :fetch_images do
   on
 
   def download_all
-    RemoteFile.not_downloaded.find_each do |file|
+    RemoteFile.not_downloaded.smallest_first.find_each do |file|
       try_download(file)
     end
   end
@@ -30,17 +30,22 @@ Snippet.add :fetch_images do
     end
   end
 
+  def shurik?
+    @_shurik = @_shurik.nil? ? `hostname`.include?('Alexanders-MBP') : @_shurik
+  end
+
   def download_file(file)
-    if file.size < 50_000
-      file.fetch_original
-      file.create_all_types
-      
-      `rm -rf "#{file.local_path}"`
-      file.update(status: 'downloaded')
-      file.symlink!
-    else
-      raise MiniMagick::Invalid
-    end
+    raise MiniMagick::Invalid if shurik? && file.size > 50_000
+    
+    puts "Downloading..."
+    file.fetch_original
+    puts "Converting..."
+    file.create_all_types
+    
+    `rm -rf "#{file.local_path}"`
+    file.update(status: 'downloaded')
+    puts "Success: #{file.local_path}"
+    file.symlink!
   end
 
   def fc
