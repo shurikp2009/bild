@@ -57,3 +57,4 @@ gem 'image_optim'
 gem 'image_optim_pack'
 
 gem 'slim-rails'
+gem 'pry-rails'

@@ -6,6 +6,9 @@ class RemoteFile < ApplicationRecord
   delegate :server, to: :folder
 
   scope :smallest_first, -> { order('size asc') }
+  scope :not_downloaded, -> { where("status <> ? or status is NULL", 'downloaded') }
+  scope :failed, -> { where(status: 'failed') }
+  scope :downloaded, -> { where(status: 'downloaded') }
 
   SIZES = {
     :small => "100"

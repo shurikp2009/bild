@@ -1,5 +1,5 @@
 require 'pp'
-# require_relative 'snippet'
+require_relative 'snippet'
 
 module ConsoleHelper
   def _cs_init
@@ -25,6 +25,7 @@ module ConsoleHelper
         if modified.any?
           modified.each { |path|
             puts "MODIFID: #{path}"
+
             if snippet = Snippet::ALL.find {|snippet| snippet.file_name == path}
               _snip_reload snippet.name
             else
@@ -47,7 +48,7 @@ module ConsoleHelper
       @__snippets[idx] = _init_snippet(Snippet[name])
     end
 
-    if @_snippet.name == name
+    if @_snippet.try(:name) == name
       @_snippet = Snippet[name]
     end
   end
