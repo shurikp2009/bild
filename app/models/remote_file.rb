@@ -36,6 +36,10 @@ class RemoteFile < ApplicationRecord
     File.join(folder.local_path(type), name)
   end
 
+  def rm(type = :original)
+    `rm -rf "#{local_path(type)}"`
+  end
+
   def full_path(type = :original)
   end
 

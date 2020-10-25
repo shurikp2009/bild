@@ -13,6 +13,7 @@ Snippet.add :fetch_images do
     begin
       download_file(file)
     rescue MiniMagick::Invalid => invalid
+      raise if @raise_all
       puts "Convertion fail, deleting file"
       `rm -rf "#{file.local_path}"`
 
@@ -25,6 +26,7 @@ Snippet.add :fetch_images do
         file.update(status: 'failed')
       end
     rescue => e
+      raise if @raise_all
       puts "Exception[#{file.id}]: #{e} for file: #{file.path}"
       file.update(status: 'failed')
     end
@@ -34,10 +36,18 @@ Snippet.add :fetch_images do
     @_shurik = @_shurik.nil? ? `hostname`.include?('Alexanders-MBP') : @_shurik
   end
 
+  def raise_all!
+    @raise_all = true
+  end
+
+  def no_raise
+    @raise_all = false
+  end
+
   def download_file(file)
     raise MiniMagick::Invalid if shurik? && file.size > 50_000
     
-    puts "Downloading..."
+    puts "Downloading(#{file.id})..."
     file.fetch_original
     puts "Converting..."
     file.create_all_types
