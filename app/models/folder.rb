@@ -17,11 +17,14 @@ class Folder < ApplicationRecord
 
   LOCAL_ROOT = "#{Rails.root}/ftp"
 
-
-  def self.default
-    path = DEFAULT.first
+  
+  def self.for_path(path)
     name = path.split('/').last
     where(path: path, server: Server.default, name: name).first_or_create
+  end
+
+  def self.default
+    for_path DEFAULT.first
   end
 
   def local_path(type = :original)
@@ -67,6 +70,14 @@ class Folder < ApplicationRecord
 
   def create_files
     remote_files.each { |entry| create_file entry }
+  end
+
+  def self_and_descendants_ids
+    [ self.id, *folders.map(&:id) ]
+  end
+
+  def all_files
+    RemoteFile.where(folder_id: self_and_descendants_ids)
   end
 
   def assign_name

@@ -14,10 +14,42 @@ class RemoteFile < ApplicationRecord
     :small => "100"
   }
 
-  def fetch_original
-    unless File.exists?(local_path)
+  module Coder
+    extend self
+
+    def dump(object)
+      YAML.dump(object)
+    rescue => e
+      if e.to_s.include?("invalid byte sequence")
+        fixed = object.to_s.encode("UTF-8", invalid: :replace, undef: :replace)
+
+        YAML.dump(eval(fixed)) # rescue binding.pry
+      else
+        raise
+      end
+    end
+
+    def load(string)
+      string.nil? ? {} : YAML.load(string)
+    end
+  end
+
+  # serialize :image_metadata, Coder
+
+  def fetch_original(force = false)
+    already_exists = File.exists?(local_path)    
+    rm if already_exists && force
+
+    unless already_exists
       server.ftp.getbinaryfile(path, local_path)
     end
+
+    save_metadata_and_keywords
+  end
+
+  def save_metadata_and_keywords
+    update_attributes(:keywords => keywords_from_image) rescue nil
+    File.write(local_path + '.md', original.data)
   end
 
   def downloaded?
@@ -53,6 +85,10 @@ class RemoteFile < ApplicationRecord
 
   def original
     MiniMagick::Image.open(local_path)
+  end
+
+  def keywords_from_image
+    original.data["profiles"]["iptc"]["Keyword[2,25]"]
   end
 
   def create_all_types
