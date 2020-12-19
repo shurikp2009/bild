@@ -6,13 +6,13 @@ class Folder < ApplicationRecord
   belongs_to :server
   
   DEFAULT = [
-    '/NEW/SHATILO',
-    '/NEW/LUBIMOV'
+    '/NEW/bild'
+
   ]
 
   TYPES = {
     :original => nil,
-    :small    => 100 # width
+    :small    => 400 # width
   }
 
   LOCAL_ROOT = "#{Rails.root}/ftp"

@@ -4,4 +4,31 @@
 li 
   = link_to link_text, file
 
-  
+  - files.sort_by(&:name).each do |file|
+ .content
+  .container-fluid
+    .row
+      .col-lg-1 
+        table.table
+          thead
+            tr
+              th Name
+              th Size
+              th Tags
+              th
+
+          tbody
+              tr
+                td = file.name
+                td = number_to_human_size(file.size).gsub(" ", "&nbsp;").html_safe
+                td 
+                td   
+                    - if file.status == 'downloading'
+                      i.fas.fa-spinner
+                    - else
+                      = link_to download_remote_file_path(file) do
+                        i.fas.fa-file-download
+                              - if file.type_exists?(:small)
+                              = try_image_tag(file)
+                                 tr 
+                                  = file.keywords

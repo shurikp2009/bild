@@ -1,11 +1,11 @@
-- content_for :page_header, 'Folders'
+- content_for :page_header
 .content
   .container-fluid
     .row
       .col-lg-1
         ul.list-unstyled
           - @folders.each do |folder|
-            = render folder, path: true
+            = render folder
         
 
 

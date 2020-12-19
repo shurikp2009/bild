@@ -20,4 +20,14 @@ class RemoteFilesController < ApplicationController
   def find_file
     @file = RemoteFile.find(params[:id])
   end
+
+  def show
+    begin
+      send_file @file.file_path
+    rescue
+      flash[:error] = 'File not found.'
+    end
+  end
+
+
 end
