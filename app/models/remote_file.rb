@@ -11,7 +11,7 @@ class RemoteFile < ApplicationRecord
   scope :downloaded, -> { where(status: 'downloaded') }
 
   SIZES = {
-    :small => "100"
+    :small => "400"
   }
 
   module Coder

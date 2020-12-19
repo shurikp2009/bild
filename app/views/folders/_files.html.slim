@@ -1,22 +1,9 @@
-table.table
-  thead
-    tr
-      th Name
-      th Size
-      th
-
-  tbody
-    - files.sort_by(&:name).each do |file|
-      tr
-        td = file.name
-        td = number_to_human_size(file.size).gsub(" ", "&nbsp;").html_safe
-        td 
-          - if file.type_exists?(:small)
-            = try_image_tag(file)
-          - else
-
-            - if file.status == 'downloading'
-              i.fas.fa-spinner
-            - else
-              = link_to download_remote_file_path(file) do
-                i.fas.fa-file-download
+ -files.sort_by(&:name).each do |file|
+   .content
+     .card 
+       .card-success
+         .card-body  
+           .row
+            = render  "layouts/modal" 
+              - if file.type_exists?(:small)
+                 = try_image_tag(file)

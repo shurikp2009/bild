@@ -47,10 +47,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
       </div>
     </form>
 
-    <!-- Right navbar links -->
-    <%= render  "layouts/navbar_links" %>
+<!-- 
+    Right navbar links    <%= render  "layouts/navbar_links" %>
   </nav>
-  <!-- /.navbar -->
+  /.navbar
+ -->
 
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -76,10 +77,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
+ <!--            <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
               <li class="breadcrumb-item active">Starter Page</li>
-            </ol>
+            </ol> -->
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -87,7 +88,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- /.content-header -->
 
     <!-- Main content -->
-    <%= yield %>
+
+
+      <%= yield %>
+
+
+  </div>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
