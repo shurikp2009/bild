@@ -1,19 +1,8 @@
-- content_for :page_header, @folder.name
-
+- content_for :page_header
 .content
-  .container-fluid
-    .row
-      .col-lg-1
         ul.list-unstyled
-          - if @folder.parent
-            <li>[ #{link_to '..', @folder.parent} ]</li>
-          - else 
-            <li>[ #{link_to '..', root_path} ]</li>
-
-          
-          = render @folder.folders
-          
-            - if @folder.files.exists?  
-              .row
-                .col-lg-1      
-                  = render 'files', files: @folder.files
+        - if @folder
+          = render @folder.folders  
+          - if @folder.files.exists?  
+            .row     
+                = render 'files', files: @folder.files

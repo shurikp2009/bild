@@ -5,7 +5,10 @@ table.table
       th Size
       th Folder
       th Keywords
-      th
+      th Caption
+      th Title
+      th Author
+      th Credit
 
   tbody
     - @files.sort_by(&:name).each do |file|
@@ -14,6 +17,10 @@ table.table
         td = number_to_human_size(file.size).gsub(" ", "&nbsp;").html_safe
         td = link_to(file.folder.path, file.folder)
         td = file.keywords
+        td = file.capt
+        td = file.title
+        td = file.author
+        td = file.credit
         td 
           - if file.type_exists?(:small)
             = try_image_tag(file)

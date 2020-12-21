@@ -1,9 +1,9 @@
- -@files.sort_by(&:name).each do |file|
+ -@folders.sort_by(&:name).each do |folder|
    .content
      .card 
        .card-success
          .card-body  
            .row
-            = link_to file
+             = render "layouts/modal" 
               - if file.type_exists?(:small)
                  = try_image_tag(file)

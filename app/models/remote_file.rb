@@ -45,11 +45,31 @@ class RemoteFile < ApplicationRecord
     end
 
     save_metadata_and_keywords
+    save_title
+    save_author
+    save_capt
+    save_credit
   end
 
   def save_metadata_and_keywords
     update_attributes(:keywords => keywords_from_image) rescue nil
     File.write(local_path + '.md', original.data)
+  end
+  def save_title
+    update_attributes(:title => title_from_image) rescue nil
+ 
+  end
+  def save_author
+    update_attributes(:author => author_from_image) rescue nil
+
+  end
+  def save_capt
+    update_attributes(:capt => capt_from_image) rescue nil
+
+  end
+  def save_credit
+    update_attributes(:credit => credit_from_image) rescue nil
+
   end
 
   def downloaded?
@@ -89,6 +109,22 @@ class RemoteFile < ApplicationRecord
 
   def keywords_from_image
     original.data["profiles"]["iptc"]["Keyword[2,25]"]
+  end
+
+  def title_from_image
+    original.data["profiles"]["iptc"]["Headline[2,105]"]
+  end
+
+  def author_from_image
+    original.data["profiles"]["iptc"]["Byline[2,80]"]
+  end
+
+  def capt_from_image
+    original.data["profiles"]["iptc"]["Caption[2,120]"]
+  end
+
+  def credit_from_image
+    original.data["profiles"]["iptc"]["Credit[2,110]"]
   end
 
   def create_all_types

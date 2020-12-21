@@ -5,11 +5,7 @@ class CreateRemoteFiles < ActiveRecord::Migration[6.0]
       t.string :path
       t.integer :folder_id
       t.integer :server_id
-      t.date :created_date
-      t.string :headline
-      t.text :caption
-      t.string :byline
-      t.string :credit
+
       t.integer :size
 
       t.date :modified_at
