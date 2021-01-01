@@ -1,12 +1,11 @@
 Rails.application.routes.draw do
   
-  get 'main/index'
-  get 'gallery/index'
-  get 'photo/index'
+
 
   resources :remote_files do
     member do
       get :download
+      get :showf
     end
   end
 

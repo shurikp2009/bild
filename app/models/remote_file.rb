@@ -49,27 +49,38 @@ class RemoteFile < ApplicationRecord
     save_author
     save_capt
     save_credit
+    save_data
+    save_src
   end
 
   def save_metadata_and_keywords
     update_attributes(:keywords => keywords_from_image) rescue nil
     File.write(local_path + '.md', original.data)
   end
+
+
   def save_title
     update_attributes(:title => title_from_image) rescue nil
- 
   end
+
   def save_author
     update_attributes(:author => author_from_image) rescue nil
-
   end
+
   def save_capt
-    update_attributes(:capt => capt_from_image) rescue nil
-
+    update_attributes(:caption => capt_from_image) rescue nil
   end
+
   def save_credit
     update_attributes(:credit => credit_from_image) rescue nil
+  end
 
+  def save_data
+    update_attributes(:data => data_from_image) rescue nil
+  end
+
+  def save_src
+    update_attributes(:src => credit_from_image) rescue nil
   end
 
   def downloaded?
@@ -93,6 +104,7 @@ class RemoteFile < ApplicationRecord
   end
 
   def full_path(type = :original)
+    File.path(folder.local_path, name)
   end
 
   def type_exists?(type = :original)
@@ -108,23 +120,31 @@ class RemoteFile < ApplicationRecord
   end
 
   def keywords_from_image
-    original.data["profiles"]["iptc"]["Keyword[2,25]"]
+    original.data["profiles"]["iptc"]["Keyword[2,25]"].join(", ")
   end
 
   def title_from_image
-    original.data["profiles"]["iptc"]["Headline[2,105]"]
+    original.data["profiles"]["iptc"]["Headline[2,105]"].join(" ")
   end
 
   def author_from_image
-    original.data["profiles"]["iptc"]["Byline[2,80]"]
+    original.data["profiles"]["iptc"]["Byline[2,80]"].join(" ")
   end
 
-  def capt_from_image
-    original.data["profiles"]["iptc"]["Caption[2,120]"]
+  def caption_from_image
+    original.data["profiles"]["iptc"].values_at("Headline[2,105]", "Created Date[2,55]", "Caption[2,120]", "Byline[2,80]", "Credit[2,110]", "Keyword[2,25]").join(" ")
   end
 
   def credit_from_image
-    original.data["profiles"]["iptc"]["Credit[2,110]"]
+    original.data["profiles"]["iptc"]["Src[2,115]"].join(" ")
+  end
+
+  def data_from_image
+    original.data["profiles"]["iptc"]["Created Date[2,55]"].join(" ")
+  end
+
+  def credit_from_image
+    original.data["profiles"]["iptc"]["Src[2,115]"].join(" ")
   end
 
   def create_all_types

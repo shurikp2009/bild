@@ -1,9 +1,5 @@
  -@folders.sort_by(&:name).each do |folder|
    .content
-     .card 
-       .card-success
-         .card-body  
-           .row
-             = render "layouts/modal" 
-              - if file.type_exists?(:small)
-                 = try_image_tag(file)
+       = render "layouts/modal" 
+        - if file.type_exists?(:small)
+           = try_image_tag(file)	

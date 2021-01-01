@@ -1,8 +1,8 @@
-- content_for :page_header, @folder.name
+- content_for :page_header
 .content
         ul.list-unstyled
         - if @folder
           = render @folder.folders  
           - if @folder.files.exists?  
             .row     
-                = render 'files', files: @folder.files
+              = render 'files', files: @folder.files

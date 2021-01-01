@@ -11,7 +11,8 @@ table.table
       th Credit
 
   tbody
-    - @files.sort_by(&:name).each do |file|
+      - if file.type_exists?(:small)
+
       tr
         td = file.name
         td = number_to_human_size(file.size).gsub(" ", "&nbsp;").html_safe

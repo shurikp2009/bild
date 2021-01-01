@@ -1,33 +1,60 @@
 class RemoteFilesController < ApplicationController
-  before_action :find_file, only: [:download]
+  before_action :find_file, only: [:download, :showf, :show]
 
-  def download
-    FetchFileJob.perform_later(params[:id])
-    @file.update_attributes(status: 'downloading')
-    redirect_back(fallback_location: @file.folder)
-  end
+  http_basic_authenticate_with name: "qwe", password: "123" 
 
-  def index
-    scope = RemoteFile.all
-    
-    if params[:q]
-      scope = scope.where("LOWER(keywords) like '%#{params[:q].downcase}%'")
+    def download
+      FetchFileJob.perform_later(params[:id])
+      @file.update_attributes(status: 'downloading')
+      redirect_back(fallback_location: @file.folder)
+      send_file @file.local_path
     end
 
-    @files = scope
-  end
+    def index
+      scope = RemoteFile.all
+      
+      if params[:q]
+        scope = scope.where("LOWER(keywords) like '%#{params[:q].downcase}%'")
+      end
 
-  def find_file
-    @file = RemoteFile.find(params[:id])
-  end
-
-  def show
-    begin
-      send_file @file.file_path
-    rescue
-      flash[:error] = 'File not found.'
+      @files = scope
     end
-  end
 
+    def find_file
+      @file = RemoteFile.find(params[:id])
+    end
+
+    def showf
+      FetchFileJob.perform_later(params[:id])
+      @file.update_attributes(status: 'downloading')
+
+      send_file @file.local_path
+    end
+    # def send
+    #   begin
+    #     send_file @file.file_path
+    #   rescue
+    #     flash[:error] = 'File not found.'
+    #   end
+    # end
+
+    # def show
+    #   @file = RemoteFile.find(params[:id])
+
+    #   respond_to do |format|
+    #   format.html
+    #   format.jpg { render pdf: generate_pdf(@file) }
+    # end
+
+
+
+
+  def jpg
+    file_name = params[:feed_image_path].split('/').last
+    @filename ="#{Rails.root}/remote_files_path/#{file_name}"
+    send_file(@filename ,
+    :type => 'application/pdf/docx/html/htm/doc',
+    :disposition => 'attachment')           
+  end
 
 end

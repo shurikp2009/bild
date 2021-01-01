@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_21_133130) do
+ActiveRecord::Schema.define(version: 2020_12_30_201522) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,8 +61,10 @@ ActiveRecord::Schema.define(version: 2020_12_21_133130) do
     t.text "image_metadata"
     t.string "title"
     t.string "author"
-    t.text "capt"
+    t.string "caption"
     t.string "credit"
+    t.date "data"
+    t.string "src"
   end
 
   create_table "servers", force: :cascade do |t|

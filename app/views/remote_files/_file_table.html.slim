@@ -1,9 +1,6 @@
- -@files.sort_by(&:name).each do |file|
-   .content
-     .card 
-       .card-success
-         .card-body  
-           .row
-            = link_to file
-              - if file.type_exists?(:small)
-                 = try_image_tag(file)
+-@files.sort_by(&:name).each do |file|
+  .card-footer
+  	.border-right
+		  = link_to file
+		      - if file.type_exists?(:small)
+		          = try_image_tag(file)
