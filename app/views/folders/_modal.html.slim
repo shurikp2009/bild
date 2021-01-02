@@ -1,0 +1,7 @@
+.btn 
+  .btn-primary               
+    .modal
+      .modal-dialog
+        .modal-content
+          - if file.type_exists?(:small)
+            = try_image_tag(files)

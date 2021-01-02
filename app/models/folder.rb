@@ -68,6 +68,10 @@ class Folder < ApplicationRecord
     file.save!
   end
 
+  def cover
+    cover = RemoteFile.first
+  end
+
   def create_files
     remote_files.each { |entry| create_file entry }
   end

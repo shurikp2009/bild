@@ -5,17 +5,14 @@ table.table
 	 		ul
    			th  = link_to showf_remote_file_path(@file) do
              = try_image_tag @file
-			th
-			th
-			th           
+         
                 
 	
  
 tbody
   tr
     td
-      ul
-			  p= @file.keywords					  
+			  p= @file.data				  
 			 	p= @file.caption
 			  p= @file.author
 				p= @file.data

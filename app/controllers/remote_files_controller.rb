@@ -30,6 +30,8 @@ class RemoteFilesController < ApplicationController
 
       send_file @file.local_path
     end
+
+
     # def send
     #   begin
     #     send_file @file.file_path

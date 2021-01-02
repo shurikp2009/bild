@@ -1,10 +1,12 @@
 -files.sort_by(&:name).each do |file|
 	.content
-    = link_to file
-      - if file.type_exists?(:small)
-          = try_image_tag(file)
-      - else
-          - if file.status == 'downloading'
-              i.fas.fa-spinner
-          - else
+	  .card-footer
+	  	.border-right
+	    = link_to file
+	      - if file.type_exists?(:small)
+	          = try_image_tag(file)
+	      - else
+	          - if file.status == 'downloading'
+	              i.fas.fa-spinner
+	          - else
 

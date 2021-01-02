@@ -5,10 +5,14 @@ class FoldersController < ApplicationController
   end
 
   def show
-    @folder
+    @folders 
   end
 
   def find_folder
     @folder = Folder.find(params[:id])
+  end
+
+  def cover
+    cover = RemoteFile.first
   end
 end
