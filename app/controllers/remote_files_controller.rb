@@ -25,12 +25,9 @@ class RemoteFilesController < ApplicationController
     end
 
     def showf
-      FetchFileJob.perform_later(params[:id])
-      @file.update_attributes(status: 'downloading')
-
+      @file.download_if_missing
       send_file @file.local_path
     end
-
 
     # def send
     #   begin

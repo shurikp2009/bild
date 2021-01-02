@@ -90,6 +90,14 @@ class RemoteFile < ApplicationRecord
   def downloading?
     File.exists?(local_path) && File.size(local_path) < size
   end
+  
+  def download_if_missing
+    if !downloaded?
+      fetch_original
+      symlink!
+    end
+  end
+
 
   def download_progress
     File.size(local_path).to_f / size
